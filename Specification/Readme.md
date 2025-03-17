@@ -27,6 +27,7 @@
 
 1. **Research Overview**
    - Part of the documentation to be submitted at the end.
+   
    - Define Phishing Detection Using AI:
      - What does the AI do?
      - 2 - 3 lines.
