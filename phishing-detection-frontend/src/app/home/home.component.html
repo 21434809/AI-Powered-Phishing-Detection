@@ -1,1 +1,19 @@
-<p>home works!</p>
+<div class="container">
+  <h1>Phishing Detection</h1>
+  <form (submit)="onSubmit()">
+    <div class="form-group">
+      <label for="emailText">Email Text:</label>
+      <textarea id="emailText" [(ngModel)]="emailText" name="emailText" class="form-control" rows="5"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Check</button>
+  </form>
+  <div *ngIf="result">
+    <h2>Result</h2>
+    <p *ngIf="result.is_spam">This email is likely a phishing attempt.</p>
+    <p *ngIf="!result.is_spam">This email is not a phishing attempt.</p>
+    <h3>Suspect Words</h3>
+    <ul>
+      <li *ngFor="let word of result.suspect_words">{{ word[0] }}: {{ word[1] }}</li>
+    </ul>
+  </div>
+</div>
