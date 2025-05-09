@@ -28,8 +28,13 @@ def get_suspect_words(text, model, vectorizer, top_n=5):
     # Get feature names (words) from the vectorizer
     feature_names = np.array(vectorizer.get_feature_names_out())
 
-    # Get model coefficients (importance of each word)
-    coef = model.coef_[0]  # Extract coefficients for the positive class
+    # Determine feature importance from the model
+    if hasattr(model, 'coef_'):
+        coef = model.coef_[0]  # Extract coefficients for the positive class
+    elif hasattr(model, 'feature_importances_'):
+        coef = model.feature_importances_
+    else:
+        return []  # fallback if neither attribute is available
 
     # Get the nonzero feature indices in the transformed input
     word_indices = text_vec.nonzero()[1]
