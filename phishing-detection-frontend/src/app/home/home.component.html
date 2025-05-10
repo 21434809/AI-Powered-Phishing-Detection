@@ -5,7 +5,14 @@
       <label for="emailText">Email Text:</label>
       <textarea id="emailText" [(ngModel)]="emailText" name="emailText" class="form-control" rows="5" placeholder="Paste the suspicious email text here..."></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Analyze Email</button>
+    <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+      <span class="button-content" [class.hidden]="isLoading">Analyze Email</span>
+      <span class="loader" *ngIf="isLoading">
+        <span class="loader-circle"></span>
+        <span class="loader-circle"></span>
+        <span class="loader-circle"></span>
+      </span>
+    </button>
   </form>
   <div *ngIf="result">
     <h2>Analysis Result</h2>
