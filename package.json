@@ -1,0 +1,13 @@
+{
+  "name": "phishing-detection",
+  "version": "1.0.0",
+  "scripts": {
+    "install": "cd phishing-detection-frontend && npm install && pip install -r ../requirements.txt",
+    "start:frontend": "cd phishing-detection-frontend && npm run serve",
+    "start:backend": "python app/main.py",
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
