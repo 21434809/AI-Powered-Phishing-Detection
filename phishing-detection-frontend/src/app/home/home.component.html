@@ -3,15 +3,16 @@
   <form (submit)="onSubmit()">
     <div class="form-group">
       <label for="emailText">Email Text:</label>
-      <textarea id="emailText" [(ngModel)]="emailText" name="emailText" class="form-control" rows="5"></textarea>
+      <textarea id="emailText" [(ngModel)]="emailText" name="emailText" class="form-control" rows="5" placeholder="Paste the suspicious email text here..."></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Check</button>
+    <button type="submit" class="btn btn-primary">Analyze Email</button>
   </form>
   <div *ngIf="result">
-    <h2>Result</h2>
-    <p *ngIf="result.is_spam">This email is likely a phishing attempt.</p>
-    <p *ngIf="!result.is_spam">This email is not a phishing attempt.</p>
-    <h3>Suspect Words</h3>
+    <h2>Analysis Result</h2>
+    <p class="result-message" [ngClass]="{'phishing': result.is_spam, 'safe': !result.is_spam}">
+      {{result.is_spam ? 'Warning: This email is likely a phishing attempt!' : 'Good news! This email appears to be legitimate.'}}
+    </p>
+    <h3>Suspicious Words Found</h3>
     <ul>
       <li *ngFor="let word of result.suspect_words">{{ word[0] }}: {{ word[1] }}</li>
     </ul>
