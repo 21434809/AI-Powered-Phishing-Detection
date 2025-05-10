@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class HomeComponent {
   emailText: string = '';
+  emailTitle: string = '';
   result: any;
   isLoading: boolean = false;
 
@@ -20,7 +21,11 @@ export class HomeComponent {
     this.isLoading = true;
     this.result = null;
     
-    this.http.post('http://127.0.0.1:5000/predict', { text: this.emailText })
+    const formattedText = `Subject: ${this.emailTitle}. Body: ${this.emailText}`;
+    
+    this.http.post('http://127.0.0.1:5000/predict', { 
+      text: formattedText
+    })
       .subscribe({
         next: (response) => {
           console.log(response);
