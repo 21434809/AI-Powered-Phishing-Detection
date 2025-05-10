@@ -42,8 +42,16 @@ def get_suspect_words(text, model, vectorizer, top_n=5):
     # Get word importance scores
     word_importance = coef[word_indices]
 
-    # Pair words with their importance scores and sort them
-    word_contributions = sorted(zip(feature_names[word_indices], word_importance), key=lambda x: abs(x[1]), reverse=True)
+    # Pair words with their importance scores
+    words_to_exclude = ['body', 'subject']
+    word_contributions = []
+    for idx, importance in zip(word_indices, word_importance):
+        word = feature_names[idx]
+        if word.lower() not in words_to_exclude:  # Only add words that aren't in our exclusion list
+            word_contributions.append((word, importance))
+
+    # Sort by absolute importance
+    word_contributions = sorted(word_contributions, key=lambda x: abs(x[1]), reverse=True)
 
     # Return the top N suspect words
     return word_contributions[:top_n]
