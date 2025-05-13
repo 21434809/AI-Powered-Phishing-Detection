@@ -1,14 +1,15 @@
 <div class="container">
   <app-title [titleText]="'Phishing Detection 🛡️'"></app-title>
   <form (submit)="onSubmit()">
-    <div class="form-group">
-      <label for="emailTitle">Email Title:</label>
+    
+    <app-form-group label="Email Title:" inputId="emailTitle">
       <input type="text" id="emailTitle" [(ngModel)]="emailTitle" name="emailTitle" class="form-control" placeholder="Enter the email subject/title...">
-    </div>
-    <div class="form-group">
-      <label for="emailText">Email Body:</label>
+    </app-form-group>
+
+    <app-form-group label="Email Body:" inputId="emailText">
       <textarea id="emailText" [(ngModel)]="emailText" name="emailText" class="form-control" rows="5" placeholder="Paste the suspicious email text here..."></textarea>
-    </div>
+    </app-form-group>
+
     <button type="submit" class="btn btn-primary" [disabled]="isLoading">
       <span class="button-content" [class.hidden]="isLoading">Analyze Email</span>
       <span class="loader" *ngIf="isLoading">

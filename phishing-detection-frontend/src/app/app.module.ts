@@ -9,12 +9,14 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { TitleComponent } from './shared/title/title.component';
+import { FormGroupComponent } from './shared/form-group/form-group.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    TitleComponent
+    TitleComponent,
+    FormGroupComponent
   ],
   imports: [
     BrowserModule,
