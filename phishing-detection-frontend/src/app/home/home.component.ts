@@ -12,6 +12,7 @@ export class HomeComponent {
   emailTitle: string = '';
   result: any;
   isLoading: boolean = false;
+  confidence?: number;
 
   constructor(private http: HttpClient) {}
 
@@ -20,7 +21,6 @@ export class HomeComponent {
     
     this.isLoading = true;
     this.result = null;
-    
     const formattedText = `Subject: ${this.emailTitle}. Body: ${this.emailText}`;
     
     this.http.post('http://127.0.0.1:5000/predict', { 
@@ -31,6 +31,7 @@ export class HomeComponent {
           console.log(response);
           this.result = response;
           this.isLoading = false;
+          this.confidence = this.result['confidence'];
         },
         error: (error) => {
           console.error('Error:', error);

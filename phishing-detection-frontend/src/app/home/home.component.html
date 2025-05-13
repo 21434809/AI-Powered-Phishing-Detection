@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>Phishing Detection</h1>
+  <h1>Phishing Detection 🛡️</h1>
   <form (submit)="onSubmit()">
     <div class="form-group">
       <label for="emailTitle">Email Title:</label>
@@ -19,7 +19,31 @@
     </button>
   </form>
   <div *ngIf="result">
-    <h2>Analysis Result</h2>
+    <!-- Adding a rounder progress circle chart to show the confidence score  -->
+                <div style="width: 200px; height: 200px; margin-left: auto; margin-right: auto;">
+              <circle-progress 
+                *ngIf="confidence !== undefined"
+                [percent]="confidence * 100"
+                [radius]="30"
+                [outerStrokeWidth]="5"
+                [innerStrokeWidth]="2"
+                [outerStrokeColor]="'#78C000'"
+                [innerStrokeColor]="'#C7E596'"
+                [animation]="true"
+                [animationDuration]="300"
+                [showTitle]="false"
+                [showUnits]="true"
+                [unitsColor]="'#00ff88'"
+                [units]="confidence*100+'%'"
+                [titleColor]="'#00ff88'"
+                [showSubtitle]="false"
+                [showBackground]="false"
+                [showInnerStroke]="true"
+                [responsive]="true"
+                [startFromZero]="false"
+              ></circle-progress>
+            </div>
+    <h2>Analysis Result 🔎</h2>
     <p class="result-message" [ngClass]="{'phishing': result.is_spam, 'safe': !result.is_spam}">
       {{result.is_spam ? 'Warning: This email is likely a phishing attempt!' : 'Good news! This email appears to be legitimate.'}}
     </p>
