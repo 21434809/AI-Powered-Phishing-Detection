@@ -30,9 +30,9 @@ def get_suspect_words(text, model, vectorizer, top_n=5):
 
     # Determine feature importance from the model
     if hasattr(model, 'coef_'):
-        coef = model.coef_[0]  # Extract coefficients for the positive class
+        feature_importances = model.coef_[0]  # Extract coefficients for the positive class
     elif hasattr(model, 'feature_importances_'):
-        coef = model.feature_importances_
+        feature_importances = model.feature_importances_
     else:
         return []  # fallback if neither attribute is available
 
@@ -40,7 +40,7 @@ def get_suspect_words(text, model, vectorizer, top_n=5):
     word_indices = text_vec.nonzero()[1]
 
     # Get word importance scores
-    word_importance = coef[word_indices]
+    word_importance = feature_importances[word_indices]
 
     # Pair words with their importance scores
     words_to_exclude = ['body', 'subject']
@@ -69,8 +69,14 @@ def predict():
     is_spam, probabilities = predict_text(data['text'], model, vectorizer)
     # Get suspect words
     suspect_words = get_suspect_words(data['text'], model, vectorizer)
-    return jsonify({'is_spam': int(is_spam), 'probabilities': probabilities.tolist(), 'suspect_words': suspect_words})
-
+    predicted_class = int(is_spam)
+    confidence = float(probabilities[0][predicted_class])
+    return jsonify({
+        'is_spam': predicted_class,
+        'probabilities': probabilities.tolist(),
+        'confidence': confidence,
+        'suspect_words': suspect_words
+    })
 @predict_bp.route('/evaluate', methods=['GET'])
 def evaluate():
     text = request.args.get('text')
