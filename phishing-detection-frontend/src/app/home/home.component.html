@@ -1,7 +1,7 @@
 <div class="container">
   <app-title [titleText]="'Phishing Detection 🛡️'"></app-title>
   <form (submit)="onSubmit()">
-    
+
     <app-form-group label="Email Title:" inputId="emailTitle">
       <input type="text" id="emailTitle" [(ngModel)]="emailTitle" name="emailTitle" class="form-control" placeholder="Enter the email subject/title...">
     </app-form-group>
@@ -21,6 +21,9 @@
   </form>
   <div *ngIf="result">
     <app-title [titleText]="'Analysis Result 🔎'"></app-title>
+      <p class="result-message" [ngClass]="{'phishing': result.is_spam, 'safe': !result.is_spam}">
+      {{result.is_spam ? 'Warning: This email is likely a phishing attempt!' : 'Good news! This email appears to be legitimate.'}}
+      </p>
     <!-- Adding a rounder progress circle chart to show the confidence score  -->
           <div style="width: 200px; height: 200px; margin-left: auto; margin-right: auto;">
               <circle-progress 
@@ -29,15 +32,15 @@
                 [radius]="30"
                 [outerStrokeWidth]="5"
                 [innerStrokeWidth]="2"
-                [outerStrokeColor]="'#78C000'"
-                [innerStrokeColor]="'#C7E596'"
+                [outerStrokeColor]="result.is_spam ? '#ff6347' : '#00ff88'"
+                [innerStrokeColor]="result.is_spam ? '#ffb3ab' : '#C7E596'"
                 [animation]="true"
                 [animationDuration]="300"
                 [showTitle]="false"
                 [showUnits]="true"
-                [unitsColor]="'#00ff88'"
+                [unitsColor]="result.is_spam ? '#ff6347' : '#00ff88'"
                 [units]="confidence*100+'%'"
-                [titleColor]="'#00ff88'"
+                [titleColor]="result.is_spam ? '#ff6347' : '#00ff88'"
                 [showSubtitle]="false"
                 [showBackground]="false"
                 [showInnerStroke]="true"
@@ -45,11 +48,8 @@
                 [startFromZero]="false"
               ></circle-progress>
             </div>
-
-    <p class="result-message" [ngClass]="{'phishing': result.is_spam, 'safe': !result.is_spam}">
-      {{result.is_spam ? 'Warning: This email is likely a phishing attempt!' : 'Good news! This email appears to be legitimate.'}}
-    </p>
-    <h3>Suspicious Words Found</h3>
+    <app-title [titleText]="'Suspicious Words Found '"></app-title>
+    <h3></h3>
     <ul>
       <li *ngFor="let word of result.suspect_words">
         <span class="highlight-suspect">{{ word[0] }}</span>: {{ word[1] }}
