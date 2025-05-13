@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home',
@@ -13,9 +14,46 @@ export class HomeComponent {
   result: any;
   isLoading: boolean = false;
   confidence?: number;
+  constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
 
-  constructor(private http: HttpClient) {}
-
+  getStyledEmailTitle(): SafeHtml {
+    if (!this.emailTitle) return '';
+    // Only apply coloring after result is available (after submit)
+    if (this.result === null || this.result === undefined || typeof this.result.is_spam === 'undefined') {
+      return this.sanitizer.bypassSecurityTrustHtml(this.emailTitle);
+    }
+    // Ensure isSpam is a boolean
+    const isSpam = Boolean(this.result.is_spam);
+    const styled = this.emailTitle
+      .split(' ')
+      .map((word, idx) => {
+        if (idx % 2 === 1) {
+          const color = isSpam ? 'red' : 'green';
+          return `<span style="color:${color}">${word}</span>`;
+        }
+        return word;
+      })
+      .join(' ');
+    return this.sanitizer.bypassSecurityTrustHtml(styled);
+  }
+  getStyledEmailText(): SafeHtml {
+    if (!this.emailText) return '';
+    if (this.result === null || this.result === undefined || typeof this.result.is_spam === 'undefined') {
+      return this.sanitizer.bypassSecurityTrustHtml(this.emailText);
+    }
+    const isSpam = Boolean(this.result.is_spam);
+    const styled = this.emailText
+      .split(' ')
+      .map((word, idx) => {
+        if (idx % 2 === 1) {
+          const color = isSpam ? 'red' : 'green';
+          return `<span style="color:${color}">${word}</span>`;
+        }
+        return word;
+      })
+      .join(' ');
+    return this.sanitizer.bypassSecurityTrustHtml(styled);
+  }
   onSubmit() {
     if (!this.emailText.trim()) return;
     
@@ -30,8 +68,8 @@ export class HomeComponent {
         next: (response) => {
           console.log(response);
           this.result = response;
-          this.isLoading = false;
           this.confidence = this.result['confidence'];
+          this.isLoading = false;
         },
         error: (error) => {
           console.error('Error:', error);

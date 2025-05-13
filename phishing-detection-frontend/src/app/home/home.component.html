@@ -3,7 +3,7 @@
   <form (submit)="onSubmit()">
 
     <app-form-group label="Email Title:" inputId="emailTitle">
-      <input type="text" id="emailTitle" [(ngModel)]="emailTitle" name="emailTitle" class="form-control" placeholder="Enter the email subject/title...">
+      <input  type="text" id="emailTitle" [(ngModel)]="emailTitle" name="emailTitle" class="form-control" placeholder="Enter the email subject/title...">
     </app-form-group>
 
     <app-form-group label="Email Body:" inputId="emailText">
@@ -48,8 +48,14 @@
                 [startFromZero]="false"
               ></circle-progress>
             </div>
+    <app-title [phishing]="result.is_spam" [titleText]="'Email Submitted:'"></app-title>
+    <div class="submitted-email">
+      <strong>Subject:</strong>
+      <div [innerHTML]="getStyledEmailTitle()"></div>
+      <strong>Body:</strong> 
+      <div [innerHTML]="getStyledEmailText()"></div>
+    </div>
     <app-title [phishing]="result.is_spam" [titleText]="result.is_spam ? 'Suspicious Words Found:' : 'Legitimate Words Found:'"></app-title>
-    <h3></h3>
     <ul>
       <li *ngFor="let word of result.suspect_words">
         <span class="highlight-suspect">{{ word[0] }}</span>: {{ word[1] }}
