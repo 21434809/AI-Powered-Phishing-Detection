@@ -20,7 +20,7 @@
     </button>
   </form>
   <div *ngIf="result">
-    <app-title [titleText]="'Analysis Result 🔎'"></app-title>
+    <app-title [phishing]="result.is_spam" [titleText]="'Analysis Result 🔎'"></app-title>
       <p class="result-message" [ngClass]="{'phishing': result.is_spam, 'safe': !result.is_spam}">
       {{result.is_spam ? 'Warning: This email is likely a phishing attempt!' : 'Good news! This email appears to be legitimate.'}}
       </p>
@@ -39,7 +39,7 @@
                 [showTitle]="false"
                 [showUnits]="true"
                 [unitsColor]="result.is_spam ? '#ff6347' : '#00ff88'"
-                [units]="confidence*100+'%'"
+                [units]="((confidence * 100) | number:'1.0-0') + '%'"
                 [titleColor]="result.is_spam ? '#ff6347' : '#00ff88'"
                 [showSubtitle]="false"
                 [showBackground]="false"
@@ -48,7 +48,7 @@
                 [startFromZero]="false"
               ></circle-progress>
             </div>
-    <app-title [titleText]="'Suspicious Words Found '"></app-title>
+    <app-title [phishing]="result.is_spam" [titleText]="result.is_spam ? 'Suspicious Words Found:' : 'Legitimate Words Found:'"></app-title>
     <h3></h3>
     <ul>
       <li *ngFor="let word of result.suspect_words">
