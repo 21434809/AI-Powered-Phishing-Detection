@@ -25,7 +25,9 @@
     </p>
     <h3>Suspicious Words Found</h3>
     <ul>
-      <li *ngFor="let word of result.suspect_words">{{ word[0] }}: {{ word[1] }}</li>
+      <li *ngFor="let word of result.suspect_words">
+        <span class="highlight-suspect">{{ word[0] }}</span>: {{ word[1] }}
+      </li>    
     </ul>
   </div>
 </div>
