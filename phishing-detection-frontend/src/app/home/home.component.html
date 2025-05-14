@@ -48,18 +48,12 @@
                 [startFromZero]="false"
               ></circle-progress>
             </div>
-    <app-title [phishing]="result.is_spam" [titleText]="'Email Submitted:'"></app-title>
+    <app-title [phishing]="result.is_spam" [titleText]="'Email Submitted: ' + (result.is_spam ? 'Suspicious Words Found:' : 'Legitimate Words Found:')"></app-title>
     <div class="submitted-email">
       <strong>Subject:</strong>
       <div [innerHTML]="getStyledEmailTitle()"></div>
       <strong>Body:</strong> 
       <div [innerHTML]="getStyledEmailText()"></div>
     </div>
-    <app-title [phishing]="result.is_spam" [titleText]="result.is_spam ? 'Suspicious Words Found:' : 'Legitimate Words Found:'"></app-title>
-    <ul>
-      <li *ngFor="let word of result.suspect_words">
-        <span class="highlight-suspect">{{ word[0] }}</span>: {{ word[1] }}
-      </li>    
-    </ul>
   </div>
 </div>
