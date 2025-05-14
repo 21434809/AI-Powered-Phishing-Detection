@@ -21,7 +21,7 @@ def predict_text(text, model, vectorizer):
     is_spam = prediction[0] == 1
     return is_spam, probabilities
 
-def get_suspect_words(text, model, vectorizer, top_n=5):
+def get_suspect_words(text, model, vectorizer):
     # Transform the input text using the fitted vectorizer
     text_vec = vectorizer.transform([text])
 
@@ -52,10 +52,7 @@ def get_suspect_words(text, model, vectorizer, top_n=5):
 
     # Sort by absolute importance
     word_contributions = sorted(word_contributions, key=lambda x: abs(x[1]), reverse=True)
-
-    # Return the top N suspect words
-    return word_contributions[:top_n]
-
+    return word_contributions
 @predict_bp.route('/predict', methods=['POST'])
 def predict():
     data = request.get_json()
