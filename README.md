@@ -1,6 +1,6 @@
 # AI-Powered Phishing Detection
 
-## Quick Start (Recommended)
+## Quick Start Web App (Recommended) 
 
 The fastest way to run both the backend (Flask API) and frontend (Angular app) is using the root `package.json` scripts. This will install all dependencies and start both servers concurrently.
 
@@ -87,3 +87,33 @@ curl -X POST http://127.0.0.1:5000/predict -H "Content-Type: application/json" -
 - Make sure you have Python, Node.js, and npm installed.
 - The default setup assumes the backend runs on port 5000 and the frontend on port 4200.
 - The frontend communicates directly with the backend at `http://127.0.0.1:5000/predict`.
+
+---
+
+## Running the AI Model Notebooks (`AI_Model/`)
+
+You can experiment with, retrain, or modify the machine learning models using the Jupyter notebooks in the `AI_Model/` directory. There are two main ways to run these notebooks:
+
+### 1. Run in Google Colab (Recommended for most users)
+
+1. Go to [Google Colab](https://colab.research.google.com/).
+2. Click `File > Upload Notebook` and select a notebook (e.g., `RandomForest.ipynb` or `ModelInterface.ipynb`) from the `AI_Model/` directory.
+3. (Optional) Upload any required data from the `sample_data/` directory using the Colab file upload interface.
+4. Run the notebook cells interactively in your browser.
+5. After training, download the exported `model.pkl` and `vectorizer.pkl` files and place them in `app/model/` for use by the backend.
+
+### 2. Run Locally (Recommended For full web based application setup) 
+
+1. Install Jupyter if you haven't already:
+    ```powershell
+    pip install notebook
+    ```
+2. Start Jupyter Notebook in the project directory:
+    ```powershell
+    jupyter notebook
+    ```
+3. In your browser, open the desired notebook from the `AI_Model/` directory.
+4. Run the cells as needed. Make sure any required data from `sample_data/` is accessible.
+5. After training, ensure the exported `model.pkl` and `vectorizer.pkl` are placed in `app/model/`.
+
+---
