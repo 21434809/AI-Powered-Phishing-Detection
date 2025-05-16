@@ -169,11 +169,28 @@ We also used confusion matrix to visualize the performance of the false positive
 \end{figure}
 In total there were only 111 false negatives and 68 false positives. The model is more likely to classify a legitimate email as phishing.
 \newpage
-\section{Conclusion and Future Work}
+\section{Conclusion}
 
-\subsection{Summary of Findings}
+\subsection{Summary of AI Principles}
+The AI Powered Phishing Email Detection System leverages machine learning, specifically a Random Forest classifier, to distinguish between phishing and legitimate emails. The system uses natural language processing (NLP) techniques to extract features from the subject and body of emails. By training on a large, labeled dataset, the model learns to identify patterns and cues indicative of phishing attempts. The backend exposes a REST API for real-time inference, while the frontend provides an interactive interface for users to submit emails and receive predictions.
 
-\subsection{Potential Enhancements}
+\subsection{Limitations}
+Despite its strong performance, the system has several limitations:
+\begin{itemize}
+    \item \textbf{Dataset Bias:} The model is trained on public datasets that may not fully represent the diversity of real world emails, potentially reducing its effectiveness on novel or sophisticated phishing attacks.
+    \item \textbf{False Positives:} Legitimate marketing emails and foreign language emails are sometimes misclassified as phishing, especially with high confidence, indicating limited generalization to non English or template based emails.
+    \item \textbf{Limited Feature Set:} The model primarily uses the subject and body text, ignoring other useful features such as sender reputation, email headers, embedded URLs, and attachments.
+    \item \textbf{Static Model:} The model does not learn continuously and requires manual retraining to adapt to new phishing tactics.
+    \item \textbf{Language and Context:} The model struggles with non English emails and may not capture cultural or contextual nuances, leading to misclassification.
+\end{itemize}
+
+\subsection{Suggested Improvements}
+To address these limitations, the following improvements are recommended:
+\begin{itemize}
+    \item \textbf{Expand and Diversify the Dataset:} Continuously collect and incorporate new, real-world phishing and legitimate emails, including multilingual and region-specific samples.
+    \item \textbf{Feature Engineering:} Incorporate additional features such as sender domain analysis, URL reputation, attachment scanning, and email header inspection.
+    \item \textbf{Continuous Learning:} Integrate user feedback with permission to retrain the model to adapt to new threats with minimal manual intervention.
+\end{itemize}
 
 \newpage
 
