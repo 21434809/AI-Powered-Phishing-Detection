@@ -48,7 +48,7 @@
                 [startFromZero]="false"
               ></circle-progress>
             </div>
-    <app-title [phishing]="result.is_spam" [titleText]="'Email Submitted: ' + (result.is_spam ? 'Suspicious Words Found:' : 'Legitimate Words Found:')"></app-title>
+    <app-title [phishing]="result.is_spam" [titleText]="'Email Submitted ' + (result.is_spam ? 'Suspicious Words Found:' : 'Legitimate Words Found:')"></app-title>
     <div class="submitted-email">
       <strong>Subject:</strong>
       <div [innerHTML]="getStyledEmailTitle()"></div>

@@ -87,7 +87,7 @@ Ultimately, Random Forest was selected for its balance between performance and i
 
 \section{Requirements Specification}
 
-The AI-Powered Phishing Email Detection System is designed as a full-stack web application that enables users to submit email content and receive real-time predictions on whether the email is phishing or legitimate. The system leverages a machine learning backend and a user-friendly frontend to provide accurate, fast, and interpretable results.
+The AI-Powered Phishing Email Detection System is designed as a full stack web application that enables users to submit email content and receive real time predictions on whether the email is phishing or legitimate. The system leverages a machine learning backend and a user friendly frontend to provide accurate, fast, and interpretable results.
 
 \subsection{Functional Requirements}
 \begin{itemize}
@@ -111,15 +111,25 @@ The AI-Powered Phishing Email Detection System is designed as a full-stack web a
 \begin{itemize}
     \item \textbf{Frontend:} Angular SPA for user interaction.
     \item \textbf{Backend:} Flask REST API for ML inference.
-    \item \textbf{ML Model:} Trained Random Forest (with option for Neural Network), serialized as \texttt{model.pkl}.
-    \item \textbf{Data:} Preprocessed datasets from multiple sources (CEAS, Nigerian Fraud, SpamAssassin, Nazario).
+    \item \textbf{ML Model:} Trained Random Forest, serialized as \texttt{model.pkl}.
+    \item \textbf{Data:} Preprocessed datasets from multiple sources (CEAS, NigerianFraud, SpamAssassin, Nazario).
 \end{itemize}
-
-\subsection{UML Diagrams}
+\newpage
+\subsection{UML Diagrams} 
 \begin{itemize}
     \item \textbf{System Architecture:} Shows the interaction between frontend, backend, and model.
+    % Insert system architecture image
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.8\textwidth]{Architecture.png}
+        \caption{System Architecture of the AI Powered Phishing Email Detection System}
+        \label{fig:system-architecture}
+    \end{figure}
+
+    \newpage
     \item \textbf{Workflow:} Sequence of user input, API call, prediction, and result display.
 \end{itemize}
+
 
 
 \section{Conclusion and Future Work}
