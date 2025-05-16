@@ -136,11 +136,39 @@ The AI Powered Phishing Email Detection System is designed as a full stack web a
         \label{fig:workflow}
     \end{figure}
     
-
 \end{itemize}
+\newpage
+\section{Testing and Evaluation}
 
-
-
+\subsection{Testing Methodology}
+We conducted several tests to evaluate the prototype’s performance in realistic scenarios. Each test involved using either real or simulated emails to observe the system's behavior:
+\begin{enumerate}
+    \item \textbf{Known Phishing Example:}
+    We used a known phishing email from the Gmail spam folder. The test performed well, with the model correctly identifying the email as phishing.
+    \item \textbf{Legitimate Email Example:}
+    We used a known legitimate email from the Gmail inbox. The test performed fairly, with the model correctly identifying the emails as legitimate. However, emails that follow a marketing template can be flagged as phishing, but with a low confidence score.
+    \item \textbf{Curated Spear Phishing Email:}
+    We used a curated spear phishing email based on a real legitimate email. The test performed fairly, with the model leaning more toward phishing, but with a low confidence score and a clear explanation of the words that were flagged as phishing.
+    \item \textbf{Foreign Language Email:}
+    We used a foreign language email based on a real legitimate email. The test performed poorly; it identified both legitimate and phishing emails as phishing, with a high confidence score and no clear explanation of the flagged words.
+\end{enumerate}
+\subsection{Evaluation Metrics}
+We evaluated based on accuracy and and a classification report on 48,762 emails.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{classification_report.png}
+    \caption{Classification Report of the AI Powered Phishing Email Detection System}
+    \label{fig:classification-report}
+\end{figure}
+We also used confusion matrix to visualize the performance of the false positives and false negatives.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.4\textwidth]{confusion_matrix.png}
+    \caption{Confusion Matrix of the AI Powered Phishing Email Detection System}
+    \label{fig:confusion-matrix}
+\end{figure}
+In total there were only 111 false negatives and 68 false positives. The model is more likely to classify a legitimate email as phishing.
+\newpage
 \section{Conclusion and Future Work}
 
 \subsection{Summary of Findings}
