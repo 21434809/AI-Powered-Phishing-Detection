@@ -12,7 +12,7 @@
     #1
 \end{minipage} }}
 
-\title{AI Powered Phishing Email Detection System}
+\title{A Lightweight Natural Language Processing Approach to Phishing Email Detection}
 
 \author{Mr. Rueben van der Westhuizen \\ u21434809}
 
@@ -34,7 +34,7 @@
 
 \subsection{How does AI detect Phishing attacks:}
 
-AI is increasingly used to detect phishing attacks by analyzing various email characteristics such as sender behavior, message content, and embedded URLs to identify anomalies or patterns indicative of phishing attempts \cite{basit2021comprehensive}. Machine learning algorithms, including natural language processing (NLP) and deep learning, are employed to recognize subtle cues that traditional rule  based systems might miss \cite{Wang2020Feature} \cite{Lauriola2021An}. ML algorithms, especially classifiers like Logistic Regression, Random Forests, and Neural Networks, are trained to identify patterns in email content, metadata, and even the tone of the language used can continuously learn from new data, improving their detection accuracy over time without manual updates \cite{Karim2019A} \cite{Murti2023Machine}.
+AI is increasingly used to detect phishing attacks by analyzing various email characteristics such as sender behavior, message content, and embedded URLs to identify anomalies or patterns indicative of phishing attempts \cite{basit2021comprehensive}. Machine learning techniques, such as deep learning and natural language processing (NLP), are employed to recognize subtle cues that traditional rule  based systems might miss \cite{Wang2020Feature} \cite{Lauriola2021An}. ML algorithms, especially classifiers like Random Forests, Logistic Regression, and Neural Networks, are trained to identify patterns in email content, metadata, and even the tone of the language used can continuously learn from new data, improving their detection accuracy over time without manual updates \cite{Karim2019A} \cite{Murti2023Machine}.
 
 \subsection{Traditional methods}
 
@@ -69,15 +69,15 @@ After close inspection, a combination off the "CEAS 08.csv" dataset, "NigerianFr
 \subsection{Model Selection Justification}
 The model selection process for phishing email detection begins with evaluating the type of data available (email content, sender information, subject line, etc.) and the complexity of the task. Given that phishing emails often contain subtle cues, we need models that can identify these implied meaning in unstructured (text) data.
 
-Initially, simpler models like Logistic Regression (LR) and Random Forest (RF) are considered. LR serves as a baseline because of its simplicity and interpretability, making it easier to understand which features are influencing the predictions. However, it may struggle with capturing nonlinear relationships and complex interactions between features.
+Initially, simpler models like Logistic Regression (LR) were considered. LR serves as a baseline because of its simplicity and interpretability, making it easier to understand which features are influencing the predictions. However, it may struggle with capturing nonlinear relationships and complex interactions between features.
 
-On the other hand, Random Forest is an ensemble method that performs better on diverse datasets because it combines multiple decision trees, which helps in reducing overfitting. It is also able to capture nonlinear relationships in the data, making it more robust than LR.
+On the other hand, Random Forest (RF) is an ensemble method that performs better on diverse datasets because it combines multiple decision trees, which helps in reducing overfitting. It is also able to capture nonlinear relationships in the data, making it more robust than LR.
 
-For more complex patterns in the data, we consider Neural Networks (NN). Specifically, Multilayer Perceptrons (MLPs) or Recurrent Neural Networks (RNNs) are employed for text data, as they excel at recognizing sequential patterns in the email content, such as unusual phrasing or tone that might signal phishing. Additionally, long-short-term memory (LSTM) networks are considered for their ability to learn from sequences, making them highly effective for analyzing email texts with contextual meaning.
+For more complex patterns in the data, we consider Neural Networks (NN). Specifically, Multilayer Perceptrons (MLPs) or Recurrent Neural Networks (RNNs) are employed for text data, as they excel at recognizing sequential patterns in the email content, such as unusual phrasing or tone that might signal phishing. 
 
-Model performance using metrics such as Accuracy, Precision, Recall, and F1-Score is crucial in evaluating phishing email detection systems. While Random Forest and Neural Networks typically offer the best results in terms of recall (catching phishing emails), Neural Networks—especially those with deep learning layers—tend to perform exceptionally well in detecting subtle, unseen phishing tactics. However, these models generally require longer training times, especially deep learning models, due to the complexity and the large amount of data they process during training.
+Evaluating phishing email detection systems relies heavily on performance metrics such as Accuracy, Precision, Recall, and F1-score. While Random Forest and Neural Networks typically offer the best results in terms of recall (catching phishing emails), Neural Networks, especially those with deep learning layers tend to perform exceptionally well in detecting subtle, unseen phishing tactics. However, these models generally require longer training times, especially deep learning models, due to the complexity and the large amount of data they process during training.
 
-Ultimately, Random Forest was selected for its balance between performance and interoperability and also provide feature importance scores.
+Ultimately, Random Forest was selected for its balance between performance and interoperability, and also provides feature importance scores.
 
 \[
 \begin{array}{|c|c|c|c|c|c|}
@@ -95,7 +95,7 @@ Ultimately, Random Forest was selected for its balance between performance and i
 
 \section{Requirements Specification}
 
-The AI Powered Phishing Email Detection System is designed as a full stack web application that enables users to submit email content and receive real time predictions on whether the email is phishing or legitimate. The system leverages a machine learning backend and a user friendly frontend to provide accurate, fast, and interpretable results.
+The Lightweight NPL Approach to Phishing Email Detection System is designed as a full stack web application that enables users to submit email content and instantly receive predictions on whether it is a phishing attempt or a legitimate message.. The system leverages a machine learning backend and a user friendly frontend to provide accurate, fast, and interpretable results.
 
 \subsection{Functional Requirements}
 \begin{itemize}
@@ -108,10 +108,9 @@ The AI Powered Phishing Email Detection System is designed as a full stack web a
 
 \subsection{Non-Functional Requirements}
 \begin{itemize}
-    \item The system must respond to prediction requests within 2 seconds.
+    \item Respond to prediction requests within 2 seconds.
     \item The model must achieve at least 97\% accuracy on the test set.
     \item The web interface must be accessible and responsive on desktop and mobile devices.
-    \item The backend and frontend must be easily deployable on standard Windows or Linux environments.
     \item Security: Only sanitized input is processed; no user data is stored.
 \end{itemize}
 
