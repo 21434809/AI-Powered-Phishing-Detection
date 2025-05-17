@@ -20,12 +20,14 @@
 
 \maketitle
 
-% Add project GitHub link to the front page
 \begin{center}
 \textbf{Project Repository:} \\[0.5em]
 \href{https://github.com/21434809/AI-Powered-Phishing-Detection}{https://github.com/21434809/AI-Powered-Phishing-Detection}
 \end{center}
-
+\begin{center}
+\textbf{Google drive:} \\[0.5em]
+\href{ https://drive.google.com/file/d/1lLU-iWw1JiY9PVlFw0b5gNYL3lvbGuCF/view?usp=sharing}{ https://drive.google.com/file/d/1lLU-iWw1JiY9PVlFw0b5gNYL3lvbGuCF/view?usp=sharing}
+\end{center}
 \newpage
 \tableofcontents
 \newpage
@@ -159,6 +161,14 @@ We conducted several tests to evaluate the prototype’s performance in realisti
     \item \textbf{Foreign Language Email:}
     We used a foreign language email based on a real legitimate email. The test performed poorly; it identified both legitimate and phishing emails as phishing, with a high confidence score and no clear explanation of the flagged words.
 \end{enumerate}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Alltest.png}
+    \caption{Example of a test Email}
+    \label{fig:email-example}
+\end{figure}
+
 \subsection{Evaluation Metrics}
 We evaluated based on accuracy and and a classification report on 48,762 emails.
 \begin{figure}[h!]
