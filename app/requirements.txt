@@ -1,0 +1,11 @@
+Flask==2.0.1
+Werkzeug==2.0.1
+flask-cors==3.0.10
+# Model runtime dependencies
+scikit-learn==1.6.1
+scipy==1.15.2
+numpy==2.0.2
+joblib==1.4.2
+threadpoolctl==3.6.0
+# Prod server
+gunicorn==21.2.0

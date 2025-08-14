@@ -117,3 +117,53 @@ You can experiment with, retrain, or modify the machine learning models using th
 5. After training, ensure the exported `model.pkl` and `vectorizer.pkl` are placed in `app/model/`.
 
 ---
+
+# Phishing Detection App
+
+## Run locally (dev)
+
+Backend (Flask):
+
+```
+cd app
+export FLASK_DEBUG=1
+python3 -m flask --app main run --host 0.0.0.0 --port 5000
+```
+
+Frontend (Angular):
+
+```
+cd phishing-detection-frontend
+npm ci
+npm run start
+```
+
+- Angular dev server proxies `/api` to `http://127.0.0.1:5000` via `proxy.conf.json`.
+
+## Docker (full application)
+
+Build and run both services:
+
+```
+cd /workspace
+docker compose up -d --build
+```
+
+- Frontend available at http://localhost:8080
+- Backend API at http://localhost:5000/api
+
+To view logs:
+
+```
+docker compose logs -f backend
+```
+
+```
+docker compose logs -f frontend
+```
+
+To stop:
+
+```
+docker compose down
+```
