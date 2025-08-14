@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM python:3.9-slim
+FROM python:3.11-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
@@ -13,7 +13,8 @@ WORKDIR /app
 
 # Install dependencies
 COPY app/requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r /app/requirements.txt
+RUN python -m pip install --upgrade pip setuptools wheel
+RUN pip install --no-cache-dir --prefer-binary -r /app/requirements.txt
 
 # Copy application code (including model artifacts)
 COPY app /app/app
