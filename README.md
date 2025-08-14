@@ -1,169 +1,61 @@
-# AI-Powered Phishing Detection
+# Phishing Detection – Run Instructions
 
-## Quick Start Web App (Recommended) 
+## Prerequisites
+- Node.js 20+
+- npm 10+
+- Python 3.9+ (only for local dev backend without Docker)
+- Docker and Docker Compose (for containerized run)
 
-The fastest way to run both the backend (Flask API) and frontend (Angular app) is using the root `package.json` scripts. This will install all dependencies and start both servers concurrently.
+## Option A: Run locally (development)
 
-### 1. Install all dependencies (Node.js, Angular, Python)
-
-```powershell
-npm install
-```
-
-This will:
-- Install frontend dependencies in `phishing-detection-frontend/`
-- Install Python dependencies from `requirements.txt`
-
-### 2. Start both backend and frontend
-
-```powershell
-npm run start
-```
-
-- The Flask backend will run at [http://127.0.0.1:5000](http://127.0.0.1:5000)
-- The Angular frontend will run at [http://localhost:4200](http://localhost:4200)
-
----
-
-## Manual Setup
-
-### Backend (Flask API)
-
-1. Install Python dependencies:
-    ```powershell
-    pip install -r requirements.txt
-    ```
-2. Run the Flask app:
-    ```powershell
-    python app/main.py
-    ```
-
-### Frontend (Angular)
-
-1. Install Node.js dependencies:
-    ```powershell
-    cd phishing-detection-frontend
-    npm install
-    ```
-2. Start the Angular app:
-    ```powershell
-    npm run start
-    ```
-    or
-    ```powershell
-    ng serve
-    ```
-
----
-
-## API Usage
-
-Send a POST request to the `/predict` endpoint with the text in the request body:
-
-```json
-{
-    "text": "Your email content here"
-}
-```
-
-### Example using `curl`
-
-```powershell
-curl -X POST http://127.0.0.1:5000/predict -H "Content-Type: application/json" -d '{"text": "Your email content here"}'
-```
-
----
-
-## Project Structure
-
-- `app/` - Flask backend (API)
-- `phishing-detection-frontend/` - Angular frontend
-- `requirements.txt` - Python dependencies
-- `package.json` - Project scripts for quick setup
-
----
-
-## Notes
-- Make sure you have Python, Node.js, and npm installed.
-- The default setup assumes the backend runs on port 5000 and the frontend on port 4200.
-- The frontend communicates directly with the backend at `http://127.0.0.1:5000/predict`.
-
----
-
-## Running the AI Model Notebooks (`AI_Model/`)
-
-You can experiment with, retrain, or modify the machine learning models using the Jupyter notebooks in the `AI_Model/` directory. There are two main ways to run these notebooks:
-
-### 1. Run in Google Colab (Recommended for most users)
-
-1. Go to [Google Colab](https://colab.research.google.com/).
-2. Click `File > Upload Notebook` and select a notebook (e.g., `RandomForest.ipynb` or `ModelInterface.ipynb`) from the `AI_Model/` directory.
-3. (Optional) Upload any required data from the `sample_data/` directory using the Colab file upload interface.
-4. Run the notebook cells interactively in your browser.
-5. After training, download the exported `model.pkl` and `vectorizer.pkl` files and place them in `app/model/` for use by the backend.
-
-### 2. Run Locally (Recommended For full web based application setup) 
-
-1. Install Jupyter if you haven't already:
-    ```powershell
-    pip install notebook
-    ```
-2. Start Jupyter Notebook in the project directory:
-    ```powershell
-    jupyter notebook
-    ```
-3. In your browser, open the desired notebook from the `AI_Model/` directory.
-4. Run the cells as needed. Make sure any required data from `sample_data/` is accessible.
-5. After training, ensure the exported `model.pkl` and `vectorizer.pkl` are placed in `app/model/`.
-
----
-
-# Phishing Detection App
-
-## Run locally (dev)
-
-Backend (Flask):
-
+1) Start the backend (Flask)
 ```
 cd app
 export FLASK_DEBUG=1
 python3 -m flask --app main run --host 0.0.0.0 --port 5000
 ```
+- API base URL: http://127.0.0.1:5000/api
+- Health: http://127.0.0.1:5000/api/
 
-Frontend (Angular):
-
+2) Start the frontend (Angular)
 ```
 cd phishing-detection-frontend
 npm ci
 npm run start
 ```
+- App URL: http://localhost:4200
+- The dev server proxies /api to the backend (see `proxy.conf.json`).
 
-- Angular dev server proxies `/api` to `http://127.0.0.1:5000` via `proxy.conf.json`.
+## Option B: Run with Docker (recommended)
 
-## Docker (full application)
-
-Build and run both services:
-
+From the repository root:
 ```
-cd /workspace
 docker compose up -d --build
 ```
+- Frontend: http://localhost:8080
+- Backend API: http://localhost:5000/api
 
-- Frontend available at http://localhost:8080
-- Backend API at http://localhost:5000/api
+Stop services:
+```
+docker compose down
+```
 
-To view logs:
-
+View logs:
 ```
 docker compose logs -f backend
 ```
-
 ```
 docker compose logs -f frontend
 ```
 
-To stop:
+## API quick test
+```
+curl -s -X POST http://127.0.0.1:5000/api/predict \
+  -H 'Content-Type: application/json' \
+  -d '{"text":"Subject: hello. Body: test message"}' | jq .
+```
 
-```
-docker compose down
-```
+## Troubleshooting
+- 404 on /api/predict in dev: ensure Flask is running and Angular started with the dev proxy (npm run start).
+- Model files missing: confirm `app/model/model.pkl` and `app/model/vectorizer.pkl` exist.
+- Port conflicts: change published ports in `docker-compose.yml` (8080 for frontend, 5000 for backend).
