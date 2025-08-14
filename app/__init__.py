@@ -6,6 +6,6 @@ def create_app():
     CORS(app)  # Enable CORS
     
     from .routes.predict import predict_bp
-    app.register_blueprint(predict_bp)
+    app.register_blueprint(predict_bp, url_prefix='/api')
     
     return app
