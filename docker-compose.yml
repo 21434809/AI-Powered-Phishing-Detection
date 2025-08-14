@@ -2,7 +2,7 @@ version: '3.9'
 services:
   backend:
     build:
-      context: /workspace
+      context: .
       dockerfile: app/Dockerfile
     container_name: backend
     environment:
@@ -13,7 +13,7 @@ services:
 
   frontend:
     build:
-      context: /workspace
+      context: .
       dockerfile: phishing-detection-frontend/Dockerfile
     container_name: frontend
     ports:
