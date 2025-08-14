@@ -1,0 +1,39 @@
+name: Build and Smoke Test Docker
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build backend image
+        run: docker build -t phishing-backend:ci -f Dockerfile .
+
+      - name: Build frontend image
+        run: docker build -t phishing-frontend:ci -f phishing-detection-frontend/Dockerfile phishing-detection-frontend
+
+      - name: Compose up
+        run: |
+          docker compose -f compose.yaml up -d --build
+          sleep 10
+
+      - name: Smoke test backend
+        run: |
+          curl --retry 10 --retry-delay 5 --retry-connrefused http://localhost:5000/
+
+      - name: Smoke test frontend -> backend proxy
+        run: |
+          curl --retry 10 --retry-delay 5 --retry-connrefused http://localhost/api/
+
+      - name: Compose down
+        if: always()
+        run: docker compose -f compose.yaml down --volumes --remove-orphans

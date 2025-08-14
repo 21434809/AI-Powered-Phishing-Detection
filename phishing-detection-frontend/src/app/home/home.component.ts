@@ -69,7 +69,7 @@ export class HomeComponent {
     this.result = null;
     this.confidence = undefined;
     const formattedText = `Subject: ${this.emailTitle}. Body: ${this.emailText}`;
-    this.http.post<PredictionResult>('http://127.0.0.1:5000/predict', { text: formattedText })
+    this.http.post<PredictionResult>('/api/predict', { text: formattedText })
       .subscribe({
         next: (response) => {
           console.log(response);

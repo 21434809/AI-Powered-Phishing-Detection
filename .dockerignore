@@ -1,0 +1,18 @@
+# VCS
+.git
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+
+# Not needed for backend image build
+phishing-detection-frontend/
+sample_data/
+AI_Model/
+*.ipynb
+*.csv
+node_modules/
