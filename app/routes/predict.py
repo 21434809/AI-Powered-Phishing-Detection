@@ -1,9 +1,24 @@
 from flask import Blueprint, request, jsonify, send_from_directory
+from functools import lru_cache
+from pathlib import Path
 import pickle
 import os
 import numpy as np
 
 predict_bp = Blueprint('predict', __name__)
+
+BASE_DIR = Path(__file__).resolve().parent.parent  # app/
+MODEL_DIR = BASE_DIR / 'model'
+MODEL_PATH = MODEL_DIR / 'model.pkl'
+VECTORIZER_PATH = MODEL_DIR / 'vectorizer.pkl'
+
+@lru_cache(maxsize=1)
+def load_artifacts():
+    with open(MODEL_PATH, 'rb') as f:
+        model = pickle.load(f)
+    with open(VECTORIZER_PATH, 'rb') as f:
+        vectorizer = pickle.load(f)
+    return model, vectorizer
 
 @predict_bp.route('/', methods=['GET'])
 def index():
@@ -20,6 +35,7 @@ def predict_text(text, model, vectorizer):
     # Return True if predicted label is spam (assuming spam is labeled as 1), otherwise False
     is_spam = prediction[0] == 1
     return is_spam, probabilities
+
 
 def get_suspect_words(text, model, vectorizer):
     # Transform the input text using the fitted vectorizer
@@ -55,21 +71,29 @@ def get_suspect_words(text, model, vectorizer):
     return word_contributions
 @predict_bp.route('/predict', methods=['POST'])
 def predict():
-    data = request.get_json()
-    # Load the model
-    with open('app/model/model.pkl', 'rb') as f:
-        model = pickle.load(f)
-    # Load the vectorizer
-    with open('app/model/vectorizer.pkl', 'rb') as f:
-        vectorizer = pickle.load(f)
+    data = request.get_json(silent=True) or {}
+    text = data.get('text')
+    if not text or not isinstance(text, str) or not text.strip():
+        return jsonify({'error': 'Invalid or missing "text" in request body'}), 400
+    # Load the model and vectorizer once (cached)
+    model, vectorizer = load_artifacts()
     # Predict if the text is spam and get probabilities
-    is_spam, probabilities = predict_text(data['text'], model, vectorizer)
+    is_spam, probabilities = predict_text(text, model, vectorizer)
     # Get suspect words
-    suspect_words = get_suspect_words(data['text'], model, vectorizer)
-    predicted_class = int(is_spam)
-    confidence = float(probabilities[0][predicted_class])
+    suspect_words = get_suspect_words(text, model, vectorizer)
+    # Determine confidence aligned with model.classes_
+    predicted_class_value = 1 if is_spam else 0
+    if hasattr(model, 'classes_'):
+        classes = model.classes_
+        if predicted_class_value in classes:
+            class_index = int(np.where(classes == predicted_class_value)[0][0])
+            confidence = float(probabilities[0][class_index])
+        else:
+            confidence = float(np.max(probabilities[0]))
+    else:
+        confidence = float(probabilities[0][predicted_class_value])
     return jsonify({
-        'is_spam': predicted_class,
+        'is_spam': int(is_spam),
         'probabilities': probabilities.tolist(),
         'confidence': confidence,
         'suspect_words': suspect_words
@@ -79,12 +103,8 @@ def evaluate():
     text = request.args.get('text')
     if not text:
         return jsonify({'error': 'No text provided'}), 400
-    # Load the model
-    with open('app/model/model.pkl', 'rb') as f:
-        model = pickle.load(f)
-    # Load the vectorizer
-    with open('app/model/vectorizer.pkl', 'rb') as f:
-        vectorizer = pickle.load(f)
+    # Load the model and vectorizer once (cached)
+    model, vectorizer = load_artifacts()
     # Predict if the text is spam and get probabilities
     is_spam, probabilities = predict_text(text, model, vectorizer)
     # Get suspect words
