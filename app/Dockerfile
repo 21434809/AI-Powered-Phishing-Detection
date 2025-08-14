@@ -6,7 +6,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 # Install minimal runtime libs sometimes needed by numpy/scipy wheels
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libgomp1 libgfortran5 \
+    curl libgomp1 libgfortran5 \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
